@@ -1,7 +1,5 @@
 #!usr/bin/env python 3
 
-#libraries:
-
 import pandas as pd 
 from sqlalchemy import create_engine
 import sys
