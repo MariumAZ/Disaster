@@ -1,6 +1,6 @@
 #!usr/bin/env python 3
 
-#libraries:
+
 import pandas as pd
 import pickle
 import nltk
@@ -23,8 +23,6 @@ def load_data(db_filepath):
     """
     load data from database
     """
-    #engine = create_engine('sqlite:///{}'.format(db)
-
     engine = create_engine('sqlite:///' + db_filepath)
     db_name = db_path.split('/')[-1][:-3]
     df = pd.read_sql_table(db_name, engine)
@@ -58,8 +56,6 @@ def build_model():
     - vectorize and then apply TF-IDF to the text.
     - Uses a Multi output classifier
     """
-
-
     pipeline = Pipeline([
     
     ("count", CountVectorizer(tokenizer=tokenize)),
@@ -86,7 +82,6 @@ def save_model(model,model_path):
     """
     Save model to disk
     """
- 
     with open(model_path, "wb") as f:
         pickle.dump(model,f)
 
