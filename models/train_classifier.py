@@ -30,15 +30,18 @@ def load_data(db_filepath):
     df = pd.read_sql_table(db_name, engine)
     return df
 
-def process_data(df):
-    df['related'] = df['related'].map(lambda x: 1 if x==2 else x)
-    df = df.dropna()
-    print(df.head())
+def split_data(df):
+    """
+    Splitting dataframe into X and y
+    """
     X  = df.iloc[:,1]
     y  = df.iloc[:,4:] 
     return X,y
 
 def tokenize(text):
+    """
+    Case normalize, lemmatize, and tokenize text.
+    """ 
     clean_tokens = []
     lemmatizer = WordNetLemmatizer()
     
@@ -50,6 +53,12 @@ def tokenize(text):
     return clean_tokens
 
 def build_model():
+    """
+    Builds ML pipeline :
+    - vectorize and then apply TF-IDF to the text.
+    - Uses a Multi output classifier
+    """
+
 
     pipeline = Pipeline([
     
@@ -66,7 +75,12 @@ def build_model():
     return pipeline
 
 def evaluate_model(y_test,y_pred,target_names):
-    print(classification_report(y_test.values, y_pred, target_names=target_names))
+    """
+    evaluates model on test data
+    """
+    report = classification_report(y_test.values, y_pred, target_names=target_names)
+    print(report)
+    
 
 def save_model(model,model_path):
     """
@@ -81,7 +95,7 @@ if __name__ ==  "__main__":
     #extract db_name:
     print("loading data ...")
     df = load_data(db_path)
-    X,y = process_data(df)
+    X,y = split_data(df)
     target_names = list(y.columns.values)
     print("target names are ", target_names)
     x_train, x_test, y_train, y_test = train_test_split(X,y)
