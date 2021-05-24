@@ -37,7 +37,6 @@ def create_col(df):
     """
      Splits categories dataframe into separate categories columns
     """
-
     df = df["categories"].str.split(";",expand=True)    
     row = df.iloc[0].apply(lambda x:str(x)[:-2])
     category_colnames = list(row)
@@ -61,8 +60,6 @@ def create_final(df, cat):
     Returns:
     df: final dataframe after processing 
     """
-
-
     df = df.drop(["categories"], axis=1)    
     df = pd.concat([df, cat], axis=1)
     df['related'] = df['related'].map(lambda x: 1 if x==2 else x)
@@ -70,7 +67,6 @@ def create_final(df, cat):
     df = df.drop_duplicates()
     #drop nan values
     df = df.dropna()
-
     return df
 
 def create_database(df, db):
